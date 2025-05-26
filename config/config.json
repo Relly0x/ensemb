@@ -1,0 +1,174 @@
+{
+  "data": {
+    "source": "oanda",
+    "instruments": ["EUR_USD"],
+    "timeframes": {
+      "high": "M15",
+      "low": "M1"
+    },
+    "history_period": "6Y",
+    "storage_dir": "data/stored"
+  },
+  "model": {
+    "hidden_size": 64,
+    "dropout": 0.1,
+    "attention_heads": 4,
+    "lstm_layers": 2,
+    "learning_rate": 0.001,
+    "weight_decay": 0.01,
+    "batch_size": 256,
+    "num_epochs": 100,
+    "early_stopping_patience": 10,
+    "scheduler_patience": 5,
+    "gradient_clip_val": 1.0,
+    "past_sequence_length": 120,
+    "forecast_horizon": 12,
+    "quantiles": [0.1, 0.5, 0.9],
+    "static_input_dim": 1,
+    "past_input_dim": 50,
+    "future_input_dim": 10,
+    "l1_regularization": 0.0
+  },
+  "features": {
+    "use_ta_features": true,
+    "use_time_features": true,
+    "use_volume_features": true
+  },
+  "preprocessing": {
+    "normalization_method": "standard"
+  },
+  "strategy": {
+    "type": "enhanced_tft",
+    "trend_filter": true,
+    "min_signal_strength": 0.75,
+    "min_signal_gap_hours": 2,
+    "require_trend_confirmation": true,
+    "min_trend_strength": 0.65,
+    "require_support_resistance": true,
+    "require_fibonacci_confluence": true,
+    "trend_only_trading": true,
+    "no_counter_trend_trades": true,
+    "min_trend_alignment_score": 0.7,
+    "max_distance_to_sr": 0.002,
+    "max_distance_to_fib": 0.001,
+    "key_fib_levels_only": true,
+    "max_positions_per_instrument": 1,
+    "min_wait_between_trades": 60,
+    "close_opposite_positions": true,
+    "fibonacci_levels": [0.236, 0.382, 0.5, 0.618, 0.786],
+    "confidence_thresholds": {
+      "high": 0.85,
+      "medium": 0.75,
+      "low": 0.65
+    },
+    "sr_window_size": 20,
+    "sr_price_tolerance": 0.001,
+    "sr_min_touches": 2,
+    "sr_cluster_distance": 0.0005,
+    "sr_importance_window": 50,
+    "trend_short_period": 20,
+    "trend_medium_period": 50,
+    "trend_long_period": 200,
+    "rsi_period": 14,
+    "rsi_overbought": 70,
+    "rsi_oversold": 30,
+    "adx_period": 14,
+    "adx_threshold": 25
+  },
+  "execution": {
+    "broker": "oanda",
+    "risk_per_trade": 0.01,
+    "magic_number": 22222222,
+    "_magic_number_comment": "IMPORTANT: Each bot instance should have a unique magic number. This identifies trades from this specific bot. Change this if running multiple bots!",
+    "max_open_positions": 2,
+    "min_lot_size": 0.01,
+    "max_lot_size": 1.0,
+    "initial_balance": 10000.0,
+    "auto_execute_signals": true,
+    "close_opposite_positions": true,
+    "update_interval": 60,
+    "quality_filter_enabled": true,
+    "min_quality_grade": "B",
+    "max_daily_trades": 3,
+    "stop_loss": {
+      "type": "atr_multiple",
+      "value": 1.5
+    },
+    "take_profit": {
+      "type": "risk_reward",
+      "value": 2.0
+    },
+    "trailing_stop": {
+      "activation_percent": 0.5,
+      "step_size": 0.1
+    }
+  },
+  "risk": {
+    "max_risk_per_instrument": 0.05,
+    "max_daily_drawdown": 0.05,
+    "max_total_risk": 0.2,
+    "window_size": 3600
+  },
+  "trading_hours": {
+    "timezone": "Europe/London",
+    "sessions": [
+      {
+        "start": "08:00",
+        "end": "19:00",
+        "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+      }
+    ]
+  },
+  "training": {
+    "enable_mlflow": false,
+    "experiment_name": "tft_trading_bot",
+    "checkpoint_dir": "models/checkpoints",
+    "use_cross_validation": false,
+    "cross_validation_folds": 5,
+    "train_ratio": 0.7,
+    "val_ratio": 0.15,
+    "test_ratio": 0.15
+  },
+  "export": {
+    "auto_export_after_training": true,
+    "export_dir": "exported_models",
+    "model_path": "models/checkpoints/best_model.pt"
+  },
+  "logging": {
+    "level": "INFO",
+    "file": "logs/trading_bot.log"
+  },
+  "error_handling": {
+    "max_log_size": 1000,
+    "log_dir": "logs",
+    "thresholds": {
+      "critical": 3,
+      "network": 10,
+      "data": 5,
+      "execution": 5
+    },
+    "window_size": 3600
+  },
+  "event_system": {
+    "max_log_size": 1000,
+    "log_dir": "logs",
+    "log_to_file": true
+  },
+  "backtest": {
+    "start_date": "2023-01-01",
+    "end_date": "2024-01-01",
+    "respect_trading_hours": true,
+    "save_results": true,
+    "output_dir": "backtest_results"
+  },
+  "telegram": {
+    "token": "7539840895:AAGRLwp6LnABgOCYkg1S-50FftFOOi4WMhk",
+    "authorized_users": ["362813632"],
+    "admin_users": ["362813632"]
+  },
+  "oanda": {
+    "api_key": "8a698b43301be97f7873e1fe3ce31f22-500af004085acc858432f2d7491e9533",
+    "account_id": "101-004-31752443-001",
+    "environment": "practice"
+  }
+}

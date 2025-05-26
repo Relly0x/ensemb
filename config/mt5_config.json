@@ -1,0 +1,57 @@
+{
+  "data": {
+    "source": "mt5",
+    "instruments": ["EURUSD", "GBPUSD", "USDJPY"],
+    "timeframes": {
+      "high": "M5",
+      "low": "M1"
+    },
+    "history_period": "3Y"
+  },
+  "model": {
+    "hidden_size": 64,
+    "dropout": 0.1,
+    "attention_heads": 4,
+    "lstm_layers": 2,
+    "learning_rate": 0.001,
+    "batch_size": 256,
+    "num_epochs": 100,
+    "early_stopping_patience": 10,
+    "past_sequence_length": 120,
+    "forecast_horizon": 12,
+    "quantiles": [0.1, 0.5, 0.9]
+  },
+  "strategy": {
+    "trend_filter": true,
+    "fibonacci_levels": [0.236, 0.382, 0.5, 0.618, 0.786],
+    "confidence_thresholds": {
+      "high": 0.8,
+      "medium": 0.6,
+      "low": 0.4
+    }
+  },
+  "execution": {
+    "risk_per_trade": 0.02,
+    "max_open_positions": 5,
+    "min_lot_size": 0.01,
+    "max_lot_size": 1.0,
+    "stop_loss": {
+      "type": "atr_multiple",
+      "value": 1.5
+    },
+    "take_profit": {
+      "type": "risk_reward",
+      "value": 2.0
+    },
+    "trailing_stop": {
+      "activation_percent": 0.5,
+      "step_size": 0.1
+    }
+  },
+  "trading_hours": {
+    "timezone": "Europe/London",
+    "sessions": [
+      {"start": "08:00", "end": "16:00", "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]}
+    ]
+  }
+}
